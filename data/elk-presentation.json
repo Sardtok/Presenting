@@ -1,0 +1,20 @@
+{
+    slides: [
+        {
+            background: "#07466D",
+            elements: [
+                {
+                    type: "text",
+                    x: 0.1,
+                    y: 0.3,
+                    text: "Awesome"
+                }
+            ]
+        }
+    ],
+    fonts: [
+        "DINPro",
+        "DINPro-Medium",
+        "DINPro-Bold"
+    ]
+}
