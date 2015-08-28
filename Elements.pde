@@ -4,6 +4,7 @@ abstract class Element {
   color strokeColor;
   boolean hasStroke;
 
+  Animation[] animations = new Animation[0];
   float dX, dY, dW, dH;
   int dFR, dFG, dFB, dFA, dSR, dSG, dSB, dSA;
   
@@ -29,6 +30,16 @@ abstract class Element {
     } else {
       noStroke();
     }
+    
+    for (Animation a : animations) {
+      a.animate(frameCount);
+    }
+  }
+  
+  void startAnimations() {
+    for (Animation a : animations) {
+      a.startTime += a.baseStartTime + frameCount;
+    }
   }
 }
 
@@ -40,6 +51,21 @@ class Rectangle extends Element {
   void draw() {
     super.draw();
     rect(x, y, w, h);
+  }
+}
+
+class TextElement extends Element {
+  String text;
+  
+  TextElement(float x, float y, float w, float h, color f, color s, boolean hS, String text) {
+    super(x, y, w, h, f, s, hS);
+    this.text = text;
+  }
+  
+  void draw() {
+    super.draw();
+    textFont(presentation.fonts[0], w);
+    text(text, x, y);
   }
 }
 
