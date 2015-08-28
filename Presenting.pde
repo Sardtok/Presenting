@@ -1,4 +1,5 @@
 import static java.awt.event.KeyEvent.*;
+import java.util.Scanner;
 
 float SCALE;
 float RATIO;
@@ -21,6 +22,28 @@ void setup() {
 
 void draw() {
   background(0);
+  presentation.draw();
+}
+
+color getColor(String c) {
+  if (c.startsWith("#")) {
+    int r = Integer.parseInt(c.substring(1,3), 16);
+    int g = Integer.parseInt(c.substring(3,5), 16);
+    int b = Integer.parseInt(c.substring(5,7), 16);
+    
+    return color(r, g, b, c.length() > 7 ? Integer.parseInt(c.substring(7), 16) : 255);
+  } else if (c.startsWith("rgb(")) {
+    Scanner s = new Scanner(c);
+    s.useDelimiter("[^0-9]+");
+    
+    int r = s.nextInt();
+    int g = s.nextInt();
+    int b = s.nextInt();
+    
+    return color(r, g, b, s.hasNextInt() ? s.nextInt() : 255);
+  }
+  
+  return color(Integer.parseInt(c));
 }
 
 void next() {
