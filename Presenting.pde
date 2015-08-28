@@ -9,28 +9,18 @@ char[] NEXT_CHARS = {' '};
 int[] PREV_CODES = {UP, LEFT, VK_PAGE_UP};
 char[] PREV_CHARS = {};
 
-JSONObject presentation;
-PFont[] fonts;
+Presentation presentation;
 
 void setup() {
   size(displayWidth, displayHeight);
   RATIO = width / height;
   SCALE = width / 1920.0;
   
-  presentation = loadJSONObject("data/elk-presentation.json");
-  loadFonts(presentation.getJSONArray("fonts"));
+  presentation = new Presentation("data/elk-presentation.json");
 }
 
 void draw() {
   background(0);
-}
-
-void loadFonts(JSONArray fontList) {
-  fonts = new PFont[fontList.size()];
-  
-  for (int i = 0; i < fonts.length; i++) {
-    fonts[i] = createFont(fontList.getString(i), 48);
-  }
 }
 
 void next() {
