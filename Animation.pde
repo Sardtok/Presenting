@@ -2,13 +2,18 @@ class Animation {
   Tweener tweener;
   int duration;
   int startTime;
+  int baseStartTime;
   Element e;
   
   float dX, dY, dW, dH;
   int dFR, dFG, dFB, dFA, dSR, dSG, dSB, dSA;
   
-  void animate() {
-    float delta = tweener.tween(frameCount - startTime, duration);
+  void animate(int frame) {
+    if (frame < startTime) {
+      return;
+    }
+    
+    float delta = tweener.tween(frame - startTime, duration);
     e.dX += dX * delta;
     e.dY += dY * delta;
     e.dW += dW * delta;
