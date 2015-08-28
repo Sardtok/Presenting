@@ -6,6 +6,10 @@ interface Tweener {
 }
 
 abstract class GeneralTweener implements Tweener {
+  public float tween(float delta) {
+    return max(min(delta, 1.0), 0.0);
+  }
+  
   public float tween(float time, float duration) {
     return tween(time / duration);
   }
@@ -19,26 +23,46 @@ abstract class GeneralTweener implements Tweener {
   }
 }
 
-class LinearTweener extends GeneralTweener {
+class CompositeTweener extends GeneralTweener {
+  Tweener[] tweeners;
+  
+  CompositeTweener(Tweener ... tweeners) {
+    this.tweeners = tweeners;
+  }
+  
   public float tween(float delta) {
+    for (Tweener t : tweeners) {
+      delta = t.tween(delta);
+    }
+    
     return delta;
+  }
+}
+
+class LoopTweener extends GeneralTweener {
+  public float tween(float delta) {
+    return abs(delta) % 1.0;
   }
 }
 
 class EaseInTweener extends GeneralTweener {
   public float tween(float delta) {
+    delta = super.tween(delta);
     return delta * delta;
   }
 }
 
 class EaseOutTweener extends GeneralTweener {
   public float tween(float delta) {
+    delta = super.tween(delta);
     return delta * (2.0 - delta);
   }
 }
 
 class EaseInOutTweener extends GeneralTweener {
   public float tween(float delta) {
+    delta = super.tween(delta);
+    
     if (delta < 0.5) {
       return 2.0 * delta * delta;
     }
