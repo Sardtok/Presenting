@@ -76,4 +76,3 @@ class EaseInOutTweener extends GeneralTweener {
     return 2.0 * delta * (2.0 - delta) - 1.0;
   }
 }
-

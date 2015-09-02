@@ -30,4 +30,3 @@ class Animation {
     e.dSA += dSA * delta;
   }
 }
-

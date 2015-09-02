@@ -91,4 +91,3 @@ class Image extends Element {
     image(img, x + dX, y + dY, w + dW, h + dH);
   }
 }
-

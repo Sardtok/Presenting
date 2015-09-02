@@ -106,4 +106,3 @@ class Slide {
     return animations;
   }
 }
-

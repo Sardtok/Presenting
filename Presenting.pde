@@ -1,18 +1,19 @@
-import static java.awt.event.KeyEvent.*;
+import java.awt.event.KeyEvent;
 import java.util.Scanner;
+import processing.opengl.*;
 
 float SCALE;
 float RATIO;
 
 int[] NEXT_CODES = {
-  DOWN, RIGHT, VK_PAGE_DOWN
+  DOWN, RIGHT, KeyEvent.VK_PAGE_DOWN
 };
 char[] NEXT_CHARS = {
   ' '
 };
 
 int[] PREV_CODES = {
-  UP, LEFT, VK_PAGE_UP
+  UP, LEFT, KeyEvent.VK_PAGE_UP
 };
 char[] PREV_CHARS = {
 };
@@ -31,7 +32,13 @@ Slide[] slides;
 HashMap<String, PImage> images = new HashMap<String, PImage>();
 
 void setup() {
-  size(displayWidth, displayHeight);
+  fullScreen(P2D);
+  
+  // This is an ugly hack to turn on vertical sync
+  // This removes tearing and choppy animation
+  frameRate(-1);
+  ((PJOGL)((PGraphicsOpenGL)getGraphics()).pgl).gl.setSwapInterval(1);
+  
   RATIO = width / height;
   SCALE = width / 1920.0;
   strokeWeight(3 * SCALE);
@@ -50,7 +57,7 @@ void loadFonts(JSONArray fontList) {
   fonts = new PFont[fontList.size()];
 
   for (int i = 0; i < fonts.length; i++) {
-    fonts[i] = createFont(fontList.getString(i), 48);
+    fonts[i] = createFont(fontList.getString(i), 128 * SCALE);
   }
 }
 
@@ -134,4 +141,3 @@ void mouseClicked() {
     prev();
   }
 }
-
