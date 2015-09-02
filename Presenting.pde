@@ -18,22 +18,24 @@ char[] PREV_CHARS = {
 };
 
 Tweener[] tweeners = {
-  new GeneralTweener(), 
+  new GeneralTweener(),
   new EaseInTweener(),
   new EaseOutTweener(),
-  new EaseInOutTweener(), 
+  new EaseInOutTweener(),
   new LoopTweener(),
   new SineTweener()
-  };
+};
 
 PFont[] fonts;
 Slide[] slides;
+HashMap<String, PImage> images = new HashMap<String, PImage>();
 
 void setup() {
   size(displayWidth, displayHeight);
   RATIO = width / height;
   SCALE = width / 1920.0;
   strokeWeight(3 * SCALE);
+  imageMode(CENTER);
   JSONObject presentation = loadJSONObject("data/elk-presentation.json");
   loadFonts(presentation.getJSONArray("fonts"));
   loadSlides(presentation.getJSONArray("slides"));
@@ -58,6 +60,14 @@ void loadSlides(JSONArray slideList) {
   for (int i = 0; i < slides.length; i++) {
     slides[i] = new Slide(slideList.getJSONObject(i));
   }
+}
+
+PImage getImage(String fileName) {
+  if (!images.containsKey(fileName)) {
+    images.put(fileName, loadImage(fileName));
+  }
+
+  return images.get(fileName);
 }
 
 color getColor(String c) {

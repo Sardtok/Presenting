@@ -58,6 +58,8 @@ class Slide {
         e = new TextElement(x, y, w, h, f, s, hS, eJson.getString("text"));
       } else if (type.equals("rect")) {
         e = new Rectangle(x, y, w, h, f, s, hS);
+      } else if (type.equals("image")) {
+        e = new Image(x, y, w, h, f, s, hS, eJson.getString("filename"));
       } else {
         throw new IllegalArgumentException("Unknown element type: " + type);
       }
