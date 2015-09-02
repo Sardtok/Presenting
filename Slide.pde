@@ -56,12 +56,52 @@ class Slide {
       String type = eJson.getString("type");
       if (type.equals("text")) {
         e = new TextElement(x, y, w, h, f, s, hS, eJson.getString("text"));
+      } else if (type.equals("rect")) {
+        e = new Rectangle(x, y, w, h, f, s, hS);
+      } else {
+        throw new IllegalArgumentException("Unknown element type: " + type);
       }
 
-      e.animations = new Animation[0];
+      if (eJson.hasKey("animations")) {
+        e.animations = loadAnimations(eJson.getJSONArray("animations"), e);
+      }
 
       elements[i] = e;
     }
+  }
+
+  Animation[] loadAnimations(JSONArray animationList, Element e) {
+    Animation[] animations = new Animation[animationList.size()];
+
+    for (int i = 0; i < animations.length; i++) {
+      Animation a = new Animation();
+      JSONObject aJson = animationList.getJSONObject(i);
+
+      a.e = e;
+
+      if (aJson.hasKey("x")) {
+        a.dX = aJson.getFloat("x") * width;
+      }
+      if (aJson.hasKey("y")) {
+        a.dY = aJson.getFloat("y") * height;
+      }
+      if (aJson.hasKey("w")) {
+        a.dW = aJson.getFloat("w") * SCALE;
+      }
+      if (aJson.hasKey("h")) {
+        a.dH = aJson.getFloat("h") * SCALE;
+      }
+
+      if (aJson.hasKey("tweener")) {
+        a.tweener = tweeners[aJson.getInt("tweener")];
+      }
+
+      a.duration = aJson.getInt("duration");
+
+      animations[i] = a;
+    }
+
+    return animations;
   }
 }
 

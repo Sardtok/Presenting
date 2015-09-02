@@ -1,5 +1,5 @@
 class Animation {
-  Tweener tweener;
+  Tweener tweener = tweeners[0];
   int duration;
   int startTime;
   int baseStartTime;

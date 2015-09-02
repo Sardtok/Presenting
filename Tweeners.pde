@@ -5,7 +5,7 @@ interface Tweener {
   float tween(float time, float duration, float start, float change);
 }
 
-abstract class GeneralTweener implements Tweener {
+class GeneralTweener implements Tweener {
   public float tween(float delta) {
     return max(min(delta, 1.0), 0.0);
   }
@@ -42,6 +42,12 @@ class CompositeTweener extends GeneralTweener {
 class LoopTweener extends GeneralTweener {
   public float tween(float delta) {
     return abs(delta) % 1.0;
+  }
+}
+
+class SineTweener extends GeneralTweener {
+  public float tween(float delta) {
+    return (1 - cos(delta * PI)) * 0.5;
   }
 }
 
