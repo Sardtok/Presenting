@@ -50,7 +50,7 @@ class Rectangle extends Element {
   
   void draw() {
     super.draw();
-    rect(x, y, w, h);
+    rect(x + dX, y + dY, w + dW, h + dH);
   }
 }
 
@@ -64,8 +64,8 @@ class TextElement extends Element {
   
   void draw() {
     super.draw();
-    textFont(presentation.fonts[0], w);
-    text(text, x, y);
+    textFont(fonts[0], w + dW);
+    text(text, x + dX, y + dY);
   }
 }
 
