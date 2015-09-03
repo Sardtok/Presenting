@@ -3,7 +3,7 @@ class Slide {
   Element[] elements;
 
   Slide(JSONObject slide) {
-    background = new Rectangle(0, 0, width, height, getColor(slide.getString("background")), 0, false);
+    background = new Rectangle(0, 0, width, height, 0, getColor(slide.getString("background")), 0, false);
     loadElements(slide.getJSONArray("elements"));
   }
 
@@ -24,6 +24,7 @@ class Slide {
       float y = 0;
       float w = 1;
       float h = 1;
+      float a = 0;
       color f = #ffffff;
       color s = 0;
       boolean hS = false;
@@ -43,6 +44,10 @@ class Slide {
       if (eJson.hasKey("h")) {
         h = eJson.getFloat("h") * SCALE;
       }
+      
+      if (eJson.hasKey("a")) {
+        a = radians(eJson.getFloat("a"));
+      }
 
       if (eJson.hasKey("fillColor")) {
         f = getColor(eJson.getString("fillColor"));
@@ -55,11 +60,11 @@ class Slide {
 
       String type = eJson.getString("type");
       if (type.equals("text")) {
-        e = new TextElement(x, y, w, h, f, s, hS, eJson.getString("text"));
+        e = new TextElement(x, y, w, h, a, f, s, hS, eJson.getString("text"));
       } else if (type.equals("rect")) {
-        e = new Rectangle(x, y, w, h, f, s, hS);
+        e = new Rectangle(x, y, w, h, a, f, s, hS);
       } else if (type.equals("image")) {
-        e = new Image(x, y, w, h, f, s, hS, eJson.getString("filename"));
+        e = new Image(x, y, w, h, a, f, s, hS, eJson.getString("filename"));
       } else {
         throw new IllegalArgumentException("Unknown element type: " + type);
       }
@@ -92,6 +97,9 @@ class Slide {
       }
       if (aJson.hasKey("h")) {
         a.dH = aJson.getFloat("h") * SCALE;
+      }
+      if (aJson.hasKey("a")) {
+        a.dA = radians(aJson.getFloat("a"));
       }
 
       if (aJson.hasKey("tweener")) {

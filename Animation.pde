@@ -5,8 +5,7 @@ class Animation {
   int baseStartTime;
   Element e;
   
-  float dX, dY, dW, dH;
-  int dFR, dFG, dFB, dFA, dSR, dSG, dSB, dSA;
+  float dX, dY, dW, dH, dA, dFR, dFG, dFB, dFA, dSR, dSG, dSB, dSA;
   
   void animate(int frame) {
     if (frame < startTime) {
@@ -18,6 +17,7 @@ class Animation {
     e.dY += dY * delta;
     e.dW += dW * delta;
     e.dH += dH * delta;
+    e.dA += dA * delta;
     
     e.dFR += dFR * delta;
     e.dFG += dFG * delta;

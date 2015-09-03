@@ -7,11 +7,12 @@ abstract class Element {
   float dX, dY, dW, dH, dA;
   float dFR, dFG, dFB, dFA, dSR, dSG, dSB, dSA;
 
-  Element(float x, float y, float w, float h, color fillColor, color strokeColor, boolean hasStroke) {
+  Element(float x, float y, float w, float h, float a, color fillColor, color strokeColor, boolean hasStroke) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+    this.a = a;
     this.fR = red(fillColor);
     this.fG = green(fillColor);
     this.fB = blue(fillColor);
@@ -30,6 +31,7 @@ abstract class Element {
     dY = 0;
     dW = 0;
     dH = 0;
+    dA = 0;
     dFR = 0;
     dFG = 0;
     dFB = 0;
@@ -67,8 +69,8 @@ abstract class Element {
 }
 
 class Rectangle extends Element {
-  Rectangle(float x, float y, float w, float h, color f, color s, boolean hS) {
-    super(x, y, w, h, f, s, hS);
+  Rectangle(float x, float y, float w, float h, float a, color f, color s, boolean hS) {
+    super(x, y, w, h, a, f, s, hS);
   }
 
   void render() {
@@ -79,8 +81,8 @@ class Rectangle extends Element {
 class TextElement extends Element {
   String text;
 
-  TextElement(float x, float y, float w, float h, color f, color s, boolean hS, String text) {
-    super(x, y, w, h, f, s, hS);
+  TextElement(float x, float y, float w, float h, float a, color f, color s, boolean hS, String text) {
+    super(x, y, w, h, a, f, s, hS);
     this.text = text;
   }
 
@@ -93,8 +95,8 @@ class TextElement extends Element {
 class Image extends Element {
   PImage img;
 
-  Image(float x, float y, float w, float h, color f, color s, boolean hS, String fileName) {
-    super(x, y, w, h, f, s, hS);
+  Image(float x, float y, float w, float h, float a, color f, color s, boolean hS, String fileName) {
+    super(x, y, w, h, a, f, s, hS);
     this.img = getImage(fileName);
   }
 
