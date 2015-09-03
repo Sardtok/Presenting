@@ -22,9 +22,9 @@ class Slide {
       Element e = null;
       float x = 0;
       float y = 0;
-      float w = 0;
-      float h = 0;
-      color f = 0;
+      float w = 1;
+      float h = 1;
+      color f = #ffffff;
       color s = 0;
       boolean hS = false;
 

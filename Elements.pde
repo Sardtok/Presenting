@@ -1,22 +1,29 @@
 abstract class Element {
-  float x, y, w, h;
-  color fillColor;
-  color strokeColor;
+  float x, y, w, h, a;
+  float fR, fG, fB, fA, sR, sG, sB, sA;
   boolean hasStroke;
 
   Animation[] animations = new Animation[0];
-  float dX, dY, dW, dH;
-  int dFR, dFG, dFB, dFA, dSR, dSG, dSB, dSA;
+  float dX, dY, dW, dH, dA;
+  float dFR, dFG, dFB, dFA, dSR, dSG, dSB, dSA;
 
   Element(float x, float y, float w, float h, color fillColor, color strokeColor, boolean hasStroke) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
-    this.fillColor = fillColor;
-    this.strokeColor = strokeColor;
+    this.fR = red(fillColor);
+    this.fG = green(fillColor);
+    this.fB = blue(fillColor);
+    this.fA = alpha(fillColor);
+    this.sR = red(strokeColor);
+    this.sG = green(strokeColor);
+    this.sB = blue(strokeColor);
+    this.sA = alpha(strokeColor);
     this.hasStroke = hasStroke;
   }
+
+  abstract void render();
 
   void draw() {
     dX = 0;
@@ -32,17 +39,24 @@ abstract class Element {
     dSB = 0;
     dSA = 0;
 
-    fill(fillColor);
-
-    if (hasStroke) {
-      stroke(strokeColor);
-    } else {
-      noStroke();
-    }
-
     for (Animation a : animations) {
       a.animate(frameCount);
     }
+    
+    fill(fR + dFR, fG + dFG, fB + dFB, fA + dFA);
+
+    if (hasStroke) {
+      stroke(sR + dSR, sG + dSG, sB + dSB, sA + dSA);
+    } else {
+      noStroke();
+    }
+    
+    pushMatrix();
+    translate(x + dX, y + dY);
+    scale((w + dW) / w, (h + dH) / h);
+    rotate(a + dA);
+    render();
+    popMatrix();
   }
 
   void startAnimations() {
@@ -57,9 +71,8 @@ class Rectangle extends Element {
     super(x, y, w, h, f, s, hS);
   }
 
-  void draw() {
-    super.draw();
-    rect(x + dX, y + dY, w + dW, h + dH);
+  void render() {
+    rect(0, 0, w, h);
   }
 }
 
@@ -71,10 +84,9 @@ class TextElement extends Element {
     this.text = text;
   }
 
-  void draw() {
-    super.draw();
-    textFont(fonts[0], w + dW);
-    text(text, x + dX, y + dY);
+  void render() {
+    textFont(fonts[0], w);
+    text(text, 0, 0);
   }
 }
 
@@ -86,8 +98,7 @@ class Image extends Element {
     this.img = getImage(fileName);
   }
 
-  void draw() {
-    super.draw();
-    image(img, x + dX, y + dY, w + dW, h + dH);
+  void render() {
+    image(img, 0, 0, w, h);
   }
 }
