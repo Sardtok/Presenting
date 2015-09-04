@@ -80,14 +80,19 @@ class Rectangle extends Element {
 
 class TextElement extends Element {
   String text;
+  int align;
+  PFont font;
 
-  TextElement(float x, float y, float w, float h, float a, color f, color s, boolean hS, String text) {
+  TextElement(float x, float y, float w, float h, float a, color f, color s, boolean hS, int align, int font, String text) {
     super(x, y, w, h, a, f, s, hS);
     this.text = text;
+    this.align = align;
+    this.font = fonts[font];
   }
 
   void render() {
-    textFont(fonts[0], w);
+    textFont(font, w);
+    textAlign(align);
     text(text, 0, 0);
   }
 }

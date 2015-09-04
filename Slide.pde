@@ -60,7 +60,15 @@ class Slide {
 
       String type = eJson.getString("type");
       if (type.equals("text")) {
-        e = new TextElement(x, y, w, h, a, f, s, hS, eJson.getString("text"));
+        int align = LEFT;
+        int font = 0;
+        if (eJson.hasKey("align")) {
+          align = eJson.getInt("align");
+        }
+        if (eJson.hasKey("font")) {
+          font = eJson.getInt("font");
+        }
+        e = new TextElement(x, y, w, h, a, f, s, hS, align, font, eJson.getString("text"));
       } else if (type.equals("rect")) {
         e = new Rectangle(x, y, w, h, a, f, s, hS);
       } else if (type.equals("image")) {

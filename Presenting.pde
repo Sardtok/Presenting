@@ -57,7 +57,8 @@ void loadFonts(JSONArray fontList) {
   fonts = new PFont[fontList.size()];
 
   for (int i = 0; i < fonts.length; i++) {
-    fonts[i] = createFont(fontList.getString(i), 128 * SCALE);
+    JSONObject font = fontList.getJSONObject(i);
+    fonts[i] = createFont(font.getString("name"), font.getFloat("size") * SCALE);
   }
 }
 
