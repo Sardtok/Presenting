@@ -61,9 +61,11 @@ abstract class Element {
     popMatrix();
   }
 
-  void startAnimations() {
+  void startAnimations(int step) {
     for (Animation a : animations) {
-      a.startTime += a.baseStartTime + frameCount;
+      if (a.step == step) {
+        a.startTime = a.baseStartTime + frameCount;
+      }
     }
   }
 }

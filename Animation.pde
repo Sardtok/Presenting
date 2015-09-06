@@ -1,8 +1,9 @@
 class Animation {
   Tweener tweener = tweeners[0];
   int duration;
-  int startTime;
+  int startTime = Integer.MAX_VALUE;
   int baseStartTime;
+  int step;
   Element e;
   
   float dX, dY, dW, dH, dA, dFR, dFG, dFB, dFA, dSR, dSG, dSB, dSA;

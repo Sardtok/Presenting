@@ -1,6 +1,8 @@
 class Slide {
   Element background;
   Element[] elements;
+  int steps;
+  int step = -1;
 
   Slide(JSONObject slide) {
     background = new Rectangle(0, 0, width, height, 0, getColor(slide.getString("background")), 0, false);
@@ -12,6 +14,15 @@ class Slide {
     for (Element e : elements) {
       e.draw();
     }
+  }
+
+  boolean next() {
+    step++;
+    for (Element e : elements) {
+      e.startAnimations(step);
+    }
+    
+    return step > steps;
   }
 
   void loadElements(JSONArray elementList) {
@@ -112,6 +123,16 @@ class Slide {
 
       if (aJson.hasKey("tweener")) {
         a.tweener = tweeners[aJson.getInt("tweener")];
+      }
+      if (aJson.hasKey("step")) {
+        a.step = aJson.getInt("step");
+        
+        if (a.step > steps) {
+          steps = a.step;
+        }
+      }
+      if (aJson.hasKey("start")) {
+        a.baseStartTime = aJson.getInt("start");
       }
 
       a.duration = aJson.getInt("duration");

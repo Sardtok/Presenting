@@ -1,6 +1,7 @@
 import java.awt.event.KeyEvent;
 import java.util.Scanner;
 import processing.opengl.*;
+import processing.sound.*;
 
 float SCALE;
 float RATIO;
@@ -29,10 +30,11 @@ Tweener[] tweeners = {
 
 PFont[] fonts;
 Slide[] slides;
+int slide;
 HashMap<String, PImage> images = new HashMap<String, PImage>();
 
 void setup() {
-  fullScreen(P2D);
+  size(960,540,P2D);
   
   // This is an ugly hack to turn on vertical sync
   // This removes tearing and choppy animation
@@ -46,11 +48,18 @@ void setup() {
   JSONObject presentation = loadJSONObject("data/elk-presentation.json");
   loadFonts(presentation.getJSONArray("fonts"));
   loadSlides(presentation.getJSONArray("slides"));
+  slides[0].next();
 }
 
 void draw() {
   background(0);
-  slides[0].draw();
+  if (slide < slides.length) {
+    slides[slide].draw();
+  } else {
+    textAlign(CENTER);
+    textFont(fonts[0], 64);
+    text("That's all folks...", width / 2, height / 2);
+  }
 }
 
 void loadFonts(JSONArray fontList) {
@@ -100,6 +109,19 @@ color getColor(String c) {
 }
 
 void next() {
+  if (slide >= slides.length) {
+    exit();
+    return;
+  }
+  
+  boolean slideIsDone = slides[slide].next();
+  if (slideIsDone) {
+    slide++;
+    
+    if (slide < slides.length) {
+      slides[slide].next();
+    }
+  }
 }
 
 void prev() {
