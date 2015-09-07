@@ -5,21 +5,31 @@ class Slide {
   int step = -1;
 
   Slide(JSONObject slide, Slide previous) {
-    if (previous == null) {
-      background = new Rectangle(0, 0, width, height, 0, getColor(slide.getString("background")), 0, false);
-    } else {
-      color c = getColor(slide.getString("background"));
+    background = new Rectangle(0, 0, width, height, 0, getColor(slide.getString("background")), 0, false);
+    
+    if (previous != null) {
       Element pbg = previous.background;
-      background = new Rectangle(0, 0, width, height, 0, color(pbg.fR, pbg.fG, pbg.fB), 0, false);
+      previous.steps++;
       
       Animation transition = new Animation();
-      transition.e = background;
-      transition.duration = 30;
-      transition.dFR = red(c) - pbg.fR;
-      transition.dFG = green(c) - pbg.fG;
-      transition.dFB = blue(c) - pbg.fB;
-      background.animations = new Animation[]{transition};
+      transition.duration = 15;
+      transition.baseStartTime = 15;
+      transition.dFR = background.fR - pbg.fR;
+      transition.dFG = background.fG - pbg.fG;
+      transition.dFB = background.fB - pbg.fB;
+      transition.step = previous.steps;
+      pbg.animations.add(transition);
+      
+      transition = new Animation();
+      transition.duration = 15;
+      transition.dFA = -255;
+      transition.step = previous.steps;
+      
+      for (Element e : previous.elements) {
+        e.animations.add(transition);
+      }
     }
+    
     loadElements(slide.getJSONArray("elements"));
   }
 
@@ -104,21 +114,17 @@ class Slide {
       }
 
       if (eJson.hasKey("animations")) {
-        e.animations = loadAnimations(eJson.getJSONArray("animations"), e);
+        loadAnimations(eJson.getJSONArray("animations"), e);
       }
 
       elements[i] = e;
     }
   }
 
-  Animation[] loadAnimations(JSONArray animationList, Element e) {
-    Animation[] animations = new Animation[animationList.size()];
-
-    for (int i = 0; i < animations.length; i++) {
+  void loadAnimations(JSONArray animationList, Element e) {
+    for (int i = 0; i < animationList.size(); i++) {
       Animation a = new Animation();
       JSONObject aJson = animationList.getJSONObject(i);
-
-      a.e = e;
 
       if (aJson.hasKey("x")) {
         a.dX = aJson.getFloat("x") * width;
@@ -152,9 +158,7 @@ class Slide {
 
       a.duration = aJson.getInt("duration");
 
-      animations[i] = a;
+      e.animations.add(a);
     }
-
-    return animations;
   }
 }

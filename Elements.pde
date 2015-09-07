@@ -3,7 +3,7 @@ abstract class Element {
   float fR, fG, fB, fA, sR, sG, sB, sA;
   boolean hasStroke;
 
-  Animation[] animations = new Animation[0];
+  ArrayList<Animation> animations = new ArrayList<Animation>();
   float dX, dY, dW, dH, dA;
   float dFR, dFG, dFB, dFA, dSR, dSG, dSB, dSA;
 
@@ -42,7 +42,7 @@ abstract class Element {
     dSA = 0;
 
     for (Animation a : animations) {
-      a.animate(frameCount);
+      a.animate(frameCount, this);
     }
     
     fill(fR + dFR, fG + dFG, fB + dFB, fA + dFA);
@@ -108,6 +108,7 @@ class Image extends Element {
   }
 
   void render() {
+    tint(fR + dFR, fG + dFG, fB + dFB, fA + dFA);
     image(img, 0, 0, w, h);
   }
 }
