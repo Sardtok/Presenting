@@ -75,7 +75,7 @@ void loadSlides(JSONArray slideList) {
   slides = new Slide[slideList.size()];
 
   for (int i = 0; i < slides.length; i++) {
-    slides[i] = new Slide(slideList.getJSONObject(i));
+    slides[i] = new Slide(slideList.getJSONObject(i), i > 0 ? slides[i - 1] : null);
   }
 }
 

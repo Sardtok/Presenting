@@ -4,8 +4,22 @@ class Slide {
   int steps;
   int step = -1;
 
-  Slide(JSONObject slide) {
-    background = new Rectangle(0, 0, width, height, 0, getColor(slide.getString("background")), 0, false);
+  Slide(JSONObject slide, Slide previous) {
+    if (previous == null) {
+      background = new Rectangle(0, 0, width, height, 0, getColor(slide.getString("background")), 0, false);
+    } else {
+      color c = getColor(slide.getString("background"));
+      Element pbg = previous.background;
+      background = new Rectangle(0, 0, width, height, 0, color(pbg.fR, pbg.fG, pbg.fB), 0, false);
+      
+      Animation transition = new Animation();
+      transition.e = background;
+      transition.duration = 30;
+      transition.dFR = red(c) - pbg.fR;
+      transition.dFG = green(c) - pbg.fG;
+      transition.dFB = blue(c) - pbg.fB;
+      background.animations = new Animation[]{transition};
+    }
     loadElements(slide.getJSONArray("elements"));
   }
 
@@ -18,6 +32,7 @@ class Slide {
 
   boolean next() {
     step++;
+    background.startAnimations(step);
     for (Element e : elements) {
       e.startAnimations(step);
     }
