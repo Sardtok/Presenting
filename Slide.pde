@@ -1,6 +1,7 @@
 class Slide {
   Element background;
   Element[] elements;
+  Sound[] sounds;
   int steps;
   int step = -1;
 
@@ -31,12 +32,21 @@ class Slide {
     }
     
     loadElements(slide.getJSONArray("elements"));
+    
+    if (slide.hasKey("sounds")) {
+      loadSounds(slide.getJSONArray("sounds"));
+    } else {
+      sounds = new Sound[0];
+    }
   }
 
   void draw() {
     background.draw();
     for (Element e : elements) {
       e.draw();
+    }
+    for (Sound s : sounds) {
+      s.play();
     }
   }
 
@@ -45,6 +55,9 @@ class Slide {
     background.startAnimations(step);
     for (Element e : elements) {
       e.startAnimations(step);
+    }
+    for (Sound s : sounds) {
+      s.startSounds(step);
     }
     
     return step > steps;
@@ -155,6 +168,19 @@ class Slide {
       if (aJson.hasKey("a")) {
         a.dA = radians(aJson.getFloat("a"));
       }
+      
+      if (aJson.hasKey("fr")) {
+        a.dFR = aJson.getInt("fr");
+      }
+      if (aJson.hasKey("fg")) {
+        a.dFG = aJson.getInt("fg");
+      }
+      if (aJson.hasKey("fb")) {
+        a.dFB = aJson.getInt("fb");
+      }
+      if (aJson.hasKey("fa")) {
+        a.dFA = aJson.getInt("fa");
+      }
 
       if (aJson.hasKey("tweener")) {
         a.tweener = tweeners[aJson.getInt("tweener")];
@@ -173,6 +199,29 @@ class Slide {
       a.duration = aJson.getInt("duration");
 
       e.animations.add(a);
+    }
+  }
+  
+  void loadSounds(JSONArray soundList) {
+    sounds = new Sound[soundList.size()];
+    
+    for (int i = 0; i < sounds.length; i++) {
+      JSONObject s = soundList.getJSONObject(i);
+      Sound sound = new Sound();
+      sounds[i] = sound;
+      
+      sound.sound = getSound(s.getString("filename"));
+      
+      if (s.hasKey("start")) {
+        sound.baseStartTime = s.getInt("start");
+      }
+      if (s.hasKey("step")) {
+        sound.step = s.getInt("step");
+        
+        if (sound.step > steps) {
+          steps = sound.step;
+        }
+      }
     }
   }
 }

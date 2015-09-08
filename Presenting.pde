@@ -1,3 +1,10 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
 import java.awt.event.KeyEvent;
 import java.util.Scanner;
 import processing.opengl.*;
@@ -32,9 +39,12 @@ PFont[] fonts;
 Slide[] slides;
 int slide;
 HashMap<String, PImage> images = new HashMap<String, PImage>();
+HashMap<String, AudioPlayer> sounds = new HashMap<String, AudioPlayer>();
+Minim minim;
 
 void setup() {
   size(960,540,P2D);
+  minim = new Minim(this);
   
   // This is an ugly hack to turn on vertical sync
   // This removes tearing and choppy animation
@@ -58,6 +68,7 @@ void draw() {
   } else {
     textAlign(CENTER);
     textFont(fonts[0], 64);
+    fill(255);
     text("That's all folks...", width / 2, height / 2);
   }
 }
@@ -85,6 +96,14 @@ PImage getImage(String fileName) {
   }
 
   return images.get(fileName);
+}
+
+AudioPlayer getSound(String fileName) {
+  if (!sounds.containsKey(fileName)) {
+    sounds.put(fileName, minim.loadFile(fileName));
+  }
+
+  return sounds.get(fileName);
 }
 
 color getColor(String c) {
@@ -125,6 +144,11 @@ void next() {
 }
 
 void prev() {
+  if (slide >= slides.length) {
+    slide--;
+    slides[slide].prev();
+  }
+  
   boolean slideIsAtStart = slides[slide].prev();
   if (slideIsAtStart) {
     slide--;
