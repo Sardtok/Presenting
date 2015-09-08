@@ -49,6 +49,20 @@ class Slide {
     
     return step > steps;
   }
+  
+  boolean prev() {
+    if (step < 0) {
+      return false;
+    }
+    
+    background.stopAnimations(step);
+    for (Element e : elements) {
+      e.stopAnimations(step);
+    }
+    step--;
+    
+    return step < 0;
+  }
 
   void loadElements(JSONArray elementList) {
     elements = new Element[elementList.size()];

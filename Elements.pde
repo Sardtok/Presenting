@@ -68,6 +68,14 @@ abstract class Element {
       }
     }
   }
+  
+  void stopAnimations(int step) {
+    for (Animation a : animations) {
+      if (a.step == step) {
+        a.startTime = Integer.MAX_VALUE;
+      }
+    }
+  }
 }
 
 class Rectangle extends Element {

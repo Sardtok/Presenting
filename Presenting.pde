@@ -125,6 +125,14 @@ void next() {
 }
 
 void prev() {
+  boolean slideIsAtStart = slides[slide].prev();
+  if (slideIsAtStart) {
+    slide--;
+    
+    if (slide >= 0) {
+      slides[slide].prev();
+    }
+  }
 }
 
 void keyReleased() {
