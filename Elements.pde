@@ -103,7 +103,11 @@ class TextElement extends Element {
   void render() {
     textFont(font, w);
     textAlign(align);
-    text(text, 0, 0);
+    if (hasStroke) {
+      text(text.toCharArray(), 0, min((int)(sR + dSR), text.length()), 0, 0);
+    } else {
+      text(text, 0, 0);
+    }
   }
 }
 
