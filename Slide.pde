@@ -181,6 +181,19 @@ class Slide {
       if (aJson.hasKey("fa")) {
         a.dFA = aJson.getInt("fa");
       }
+      
+      if (aJson.hasKey("sr")) {
+        a.dSR = aJson.getInt("sr");
+      }
+      if (aJson.hasKey("sg")) {
+        a.dSG = aJson.getInt("sg");
+      }
+      if (aJson.hasKey("sb")) {
+        a.dSB = aJson.getInt("sb");
+      }
+      if (aJson.hasKey("sa")) {
+        a.dSA = aJson.getInt("sa");
+      }
 
       if (aJson.hasKey("tweener")) {
         a.tweener = tweeners[aJson.getInt("tweener")];
