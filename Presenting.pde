@@ -43,7 +43,7 @@ HashMap<String, AudioPlayer> sounds = new HashMap<String, AudioPlayer>();
 Minim minim;
 
 void setup() {
-  size(960,540,P2D);
+  fullScreen(P2D);
   minim = new Minim(this);
   
   // This is an ugly hack to turn on vertical sync
