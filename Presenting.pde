@@ -8,7 +8,6 @@ import ddf.minim.ugens.*;
 import java.awt.event.KeyEvent;
 import java.util.Scanner;
 import processing.opengl.*;
-import processing.sound.*;
 
 float SCALE;
 float RATIO;
@@ -55,7 +54,7 @@ void setup() {
   SCALE = width / 1920.0;
   strokeWeight(3 * SCALE);
   imageMode(CENTER);
-  JSONObject presentation = loadJSONObject("data/elk-presentation.json");
+  JSONObject presentation = loadJSONObject("data/demo-presentation.json");
   loadFonts(presentation.getJSONArray("fonts"));
   loadSlides(presentation.getJSONArray("slides"));
   slides[0].next();
@@ -67,7 +66,7 @@ void draw() {
     slides[slide].draw();
   } else {
     textAlign(CENTER);
-    textFont(fonts[0], 64);
+    textFont(fonts[0], 64 * SCALE);
     fill(255);
     text("That's all folks...", width / 2, height / 2);
   }

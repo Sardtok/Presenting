@@ -1,0 +1,93 @@
+{
+    slides: [
+        {
+            background: "#07466D",
+            elements: [
+                {
+                    type: "text",
+                    x: 1.1,
+                    y: 0.2,
+                    w: 96,
+                    text: "Slide",
+                    animations: [
+                        {
+                            x: -1,
+                            duration: 60,
+                            tweener: 2
+                        }
+                    ]
+                },
+                {
+                    type: "text",
+                    x: 0.1,
+                    y: 0.3,
+                    w: 96,
+                    h: 96,
+                    text: "Flip (sort of)",
+                    animations: [
+                        {
+                            h: -96,
+                            duration: 0
+                        },
+                        {
+                            h: 96,
+                            duration: 15,
+                            start: 60
+                        }
+                    ]
+                },
+                {
+                    type: "text",
+                    x: 0.1,
+                    y: 0.4,
+                    w: 64,
+                    strokeColor: "0",
+                    font: 1,
+                    text: "Typed text (also a bit of a hack)",
+                    animations: [
+                        {
+                            sr: 35,
+                            duration: 120,
+                            start: 90
+                        }
+                    ]
+                },
+                {
+                    type: "text",
+                    x: 0.1,
+                    y: 0.7,
+                    w: 96,
+                    text: "Spin",
+                    animations: [
+                        {
+                            a: 1080,
+                            duration: 120,
+                            start: 210,
+                            tweener: 3
+                        }
+                    ]
+                },
+                {
+                    type: "text",
+                    x: 0.5,
+                    y: 0.7,
+                    w: 96,
+                    align: 3,
+                    text: "Spin",
+                    animations: [
+                        {
+                            a: 1080,
+                            duration: 120,
+                            start: 330,
+                            tweener: 3
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    fonts: [
+        { name: "Helvetica", size: 96 },
+        { name: "Courier New", size: 64 }
+    ]
+}
